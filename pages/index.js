@@ -24,7 +24,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div className="h-screen">
       <AlertIcon size={16} />
       <h1>Test</h1>
       {predioList.map((predio) => {

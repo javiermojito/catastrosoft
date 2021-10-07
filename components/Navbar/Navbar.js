@@ -3,13 +3,10 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav>
+    <nav className="grid w-full h-12 justify-center	shadow content-center">
       <main>
         <Link href="/">
-          <a>Home</a>
-        </Link>
-        <Link href="/predio/1">
-          <a>predio 1</a>
+          <a className="text-base font-semibold text-black">Catastrosoft</a>
         </Link>
       </main>
     </nav>
