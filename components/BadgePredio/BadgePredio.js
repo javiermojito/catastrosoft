@@ -1,5 +1,9 @@
 import React, { Component, Fragment } from "react";
 import Link from "next/link";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 import {
   KebabHorizontalIcon,
@@ -8,18 +12,55 @@ import {
   PersonIcon,
   OrganizationIcon,
   ScreenFullIcon,
+  PencilIcon,
+  TrashIcon,
 } from "@primer/octicons-react";
 
 export default class BadgePredio extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.predio);
     this.state = {
       isOpen: false,
     };
     this.predio = {
       ...props.predio,
     };
+    this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    console.log(e);
+    let value;
+
+    if (e.target.nodeName === "path") {
+      value = e.target.parentElement.parentElement.value;
+    } else if (e.target.nodeName === "svg") {
+      value = e.target.parentElement.value;
+    } else {
+      value = e.target.value;
+    }
+
+    this.callDeletePredio(value);
+  }
+
+  callDeletePredio(predio) {
+    MySwal.fire({
+      title: `¿Seguro que desea eliminar este '${predio}'?`,
+      text: "Esta acción no se puede revertir.",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Sí, elimínalo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("PEDIENTE");
+        Swal.fire(
+          "Predio Eliminado!",
+          "El predio ha sido eliminado correctamente.",
+          "Exito"
+        );
+      }
+    });
   }
 
   // <Link href={`/predio/${this.predio.id_predial}`}>
@@ -33,16 +74,27 @@ export default class BadgePredio extends Component {
                 {this.predio.nombre}
               </h2>
               <span className="text-xs text-gray-600 inline-block align-baseline pb-1">
-                #{this.predio.num_predial || "000001"}
+                #{this.predio.num_predial}
               </span>
             </div>
           </Link>
-          <button className="w-1/6 flex justify-center content-center my-auto">
-            <KebabHorizontalIcon
-              size={16}
-              className="transition duration-800 text-gray-400 cursor-pointer hover:text-gray-800"
-            />
-          </button>
+          <div className="flex flex-row">
+            <button
+              title="Editar"
+              className="transition duration-500 bg-gray-200 rounded-md p-1 mt-3 mb-3 ml-2 mr-1 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-blue-400 hover:text-white hover:font-bold"
+            >
+              <PencilIcon size={12} className="ml-1" />
+            </button>
+            <button
+              id="butEliminarPredio"
+              title="Eliminar"
+              value={this.predio.num_predial}
+              className="transition duration-500 bg-gray-200 rounded-md p-1 mt-3 mb-3 ml-1 mr-2 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-red-400 hover:text-white hover:font-bold"
+              onClick={this.handleClick.bind(this)}
+            >
+              <TrashIcon className="ml-1" size={12} />
+            </button>
+          </div>
         </div>
         <Link href={`/predio/${this.predio.id_predial}`}>
           <div className="border w-2/3 bg-gray-100 h-12 rounded-b-lg w-full h-auto">

@@ -39,7 +39,7 @@ const Home = () => {
       </main>
       <div className="grid w-full mx-auto grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 ">
         {predioList.map((predio) => {
-          return <BadgePredio predio={predio} />;
+          return <BadgePredio predio={predio} key={predio.id_predial} />;
         })}
       </div>
     </div>
