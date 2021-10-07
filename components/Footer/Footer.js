@@ -3,7 +3,7 @@ import { HeartFillIcon } from "@primer/octicons-react";
 
 function Footer() {
   return (
-    <div className="h-14 w-full shadow grid content-center relative	text-center	border">
+    <div className="block h-14 w-full shadow grid content-center relative	text-center	border bg-white">
       <p>
         Hecho con <HeartFillIcon size={16} /> por{" "}
         <a

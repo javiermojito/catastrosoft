@@ -75,7 +75,7 @@ export default class BadgePredio extends Component {
       <div className="h-24 w-96 mx-auto h-full cursor-pointer transition hover:shadow-md">
         <div className="flex flex-row justify-between	content-center text-center border-t border-l border-r rounded-t-lg w-full shadow">
           <Link href={`/predio/${this.predio.id_predial}`}>
-            <div className="pl-2 flex flex-row my-auto items-end pt-2 pl-2 pb-2 w-5/6 border-r">
+            <div className="flex flex-row my-auto items-end pt-2 pl-2 pb-2 w-full border-r">
               <h2 className="text-xl font-bold pr-2 pl-2 inline-block align-top">
                 {this.predio.nombre}
               </h2>
@@ -84,13 +84,13 @@ export default class BadgePredio extends Component {
               </span>
             </div>
           </Link>
-          <div className="flex flex-row">
-            <button
+          <div className="flex flex-row mx-auto pl-1">
+            {/* <button
               title="Editar"
               className="transition duration-500 bg-gray-200 rounded-md p-1 mt-3 mb-3 ml-2 mr-1 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-blue-400 hover:text-white hover:font-bold"
             >
               <PencilIcon size={12} className="ml-1" />
-            </button>
+            </button> */}
             <button
               id="butEliminarPredio"
               title="Eliminar"

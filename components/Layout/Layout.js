@@ -7,7 +7,7 @@ function Layout(props) {
     <div>
       <Navbar />
       {props.children}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
