@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { AlertIcon } from "@primer/octicons-react";
 
 const Home = () => {
   const [predioList, setPredioList] = useState([]);
@@ -24,6 +25,7 @@ const Home = () => {
 
   return (
     <div>
+      <AlertIcon size={16} />
       <h1>Test</h1>
       {predioList.map((predio) => {
         return <div>{predio.nombre}</div>;
