@@ -14,6 +14,7 @@ import {
   ScreenFullIcon,
   PencilIcon,
   TrashIcon,
+  PeopleIcon,
 } from "@primer/octicons-react";
 
 export default class BadgePredio extends Component {
@@ -42,6 +43,11 @@ export default class BadgePredio extends Component {
 
     this.callDeletePredio(value);
   }
+
+  capitalize = (s) => {
+    if (typeof s !== "string") return "";
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
 
   callDeletePredio(predio) {
     MySwal.fire({
@@ -107,7 +113,7 @@ export default class BadgePredio extends Component {
                 {this.predio.predio_propietario.length < 2 ? (
                   <React.Fragment>
                     <PersonIcon size={16} />{" "}
-                    <span className="font-bold">Propietarios:</span>{" "}
+                    <span className="font-bold">Propietario:</span>{" "}
                     {this.predio.predio_propietario.length}
                   </React.Fragment>
                 ) : (
@@ -121,7 +127,7 @@ export default class BadgePredio extends Component {
               <p>
                 <OrganizationIcon size={16} />{" "}
                 <span className="font-bold">Construcciones:</span>{" "}
-                {this.predio.predio_propietario.length}
+                {this.predio.predio_construccion.length}
               </p>
               <p>
                 <ScreenFullIcon size={16} />{" "}
@@ -136,7 +142,9 @@ export default class BadgePredio extends Component {
               </p>
               <p>
                 <LocationIcon size={16} /> {this.predio.municipio.municipio},{" "}
-                {this.predio.departamento.departamento}
+                {this.capitalize(
+                  this.predio.departamento.departamento.toLowerCase()
+                )}
               </p>
             </div>
           </div>

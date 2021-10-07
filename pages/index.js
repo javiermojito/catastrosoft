@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AlertIcon, PackageIcon, PlusIcon } from "@primer/octicons-react";
+import { PackageIcon, PlusIcon } from "@primer/octicons-react";
 import BadgePredio from "../components/BadgePredio/BadgePredio";
 import Link from "next/link";
 

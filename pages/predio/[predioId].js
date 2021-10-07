@@ -15,6 +15,8 @@ import {
   ScreenFullIcon,
   TrashIcon,
 } from "@primer/octicons-react";
+import BadgePropietario from "../../components/BadgePropietario/BadgePropietario";
+import BadgeConstruccion from "../../components/BadgeConstruccion/BadgeConstruccion";
 
 const Predio = () => {
   const {
@@ -102,11 +104,12 @@ const Predio = () => {
 
       {/* Propietarios y Construcciones*/}
       <section className="grid grid-cols-1 grid-rows-1 mx-auto border bg-gray-100">
+        {/* Propietarios */}
         <div className="border rounded m-5 w-96 mx-auto max-h-screen">
           {/* Title */}
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-center bg-white">
             <h2 className="text-md font-bold ml-4">
-              <PeopleIcon size={16} className="mr-2" />
+              <PeopleIcon size={16} className="mr-2 mb-px" />
               Propietarios
             </h2>
             <button className=" transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold">
@@ -115,61 +118,51 @@ const Predio = () => {
           </div>
           {/* GRID */}
           <div className="h-auto bg-gray-200 grid grid-col-1 gap-y-4 pb-4 pt-4 ">
-            {/* badge */}
-            <div className=" bg-white h-auto shadow rounded w-11/12 mx-auto">
-              <div className="flex flex-row items-center m-2 ml-4 border-b ">
-                <PersonIcon size={16} className="mr-2" />
-                <p className="font-normal text-lg w-10/12 truncate">
-                  Javier Andrés Collazos Gómez
-                </p>
-                <div className="flex flex-row">
-                  <button
-                    title="Editar"
-                    className="transition duration-500 bg-gray-200 rounded-md p-1 mt-3 mb-3 ml-2 mr-0 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-blue-400 hover:text-white hover:font-bold"
-                  >
-                    <PencilIcon size={12} className="ml-1" />
-                  </button>
-                  <button
-                    id="butEliminarPredio"
-                    title="Eliminar"
-                    className="transition duration-500 bg-gray-200 rounded-md p-1 mt-3 mb-3 ml-1 mr-1 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-red-400 hover:text-white hover:font-bold"
-                  >
-                    <TrashIcon className="ml-1" size={12} />
-                  </button>
-                </div>
-              </div>
-              <ul className="ml-4 mb-2">
-                <li className="text-sm text-gray-600">
-                  <HomeIcon size={13} className="mr-1" /> Manzana 17 Casa 11
-                  Barrio Topacio
-                </li>
-                <li className="text-sm text-gray-600">
-                  <CommentDiscussionIcon size={13} className="mr-1" />{" "}
-                  +573017217294
-                </li>
-                <li className="text-sm text-gray-600">
-                  <MailIcon size={13} className="mr-1" />{" "}
-                  jcollazosgomez@gmail.com
-                </li>
-                <li className="text-sm text-gray-600 ">
-                  <CreditCardIcon size={13} className="mr-1" /> CC 1234644079
-                </li>
-              </ul>
-            </div>
+            {predio.predio_propietario?.length >= 1 ? (
+              predio.predio_propietario.map(({ propietario }) => {
+                return (
+                  <BadgePropietario
+                    propietario={propietario}
+                    key={propietario.id_propietario}
+                  />
+                );
+              })
+            ) : (
+              <p className="mx-auto text-gray-800">
+                No hay propietarios registrados en este predio.
+              </p>
+            )}
           </div>
-          {/* Componente */}
-          {/* <div></div> */}
         </div>
-        <div className="border rounded m-5 w-96 mx-auto">
-          <div className="flex flex-row justify-between items-center">
+        {/* Construcciones */}
+        <div className="border rounded m-5 w-96 mx-auto max-h-screen">
+          {/* Title */}
+          <div className="flex flex-row justify-between items-center bg-white">
             <h2 className="text-md font-bold ml-4">
-              <OrganizationIcon size={16} className="mr-2" /> Construcciones
+              <OrganizationIcon size={16} className="mr-2 mb-px" />{" "}
+              Construcciones
             </h2>
             <button className=" transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold">
               <PlusIcon size={12} className="mr-1 ml-1" /> Añadir
             </button>
           </div>
-          <div className="h-12 bg-gray-200">Soy una construccion</div>
+          {/* GRID */}
+          <div className="h-auto bg-gray-200 grid grid-col-1 gap-y-4 pb-4 pt-4">
+            {predio.predio_construccion?.length >= 1 ? (
+              predio.predio_construccion.map(({ construccion }) => {
+                return (
+                  <BadgeConstruccion
+                    construccion={construccion}
+                    key={construccion.id_construccion}
+                  />
+                );
+              })
+            ) : (
+              <p className="mx-auto text-gray-800">
+                No hay construcciones registradas en este predio.
+              </p>
+            )}
+          </div>
           {/* Componente */}
           {/* <div></div> */}
         </div>
