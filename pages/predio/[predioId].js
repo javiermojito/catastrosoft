@@ -51,9 +51,6 @@ const Predio = () => {
     );
     target.search = params.toString();
 
-    //console.log(predio);
-    //console.log(predioId);
-    //console.log(Boolean(predioId));
     if (predioId) {
       let req = new XMLHttpRequest();
       req.open("GET", target, true);
@@ -67,8 +64,6 @@ const Predio = () => {
       req.send();
       req.onload = () => {
         const data = JSON.parse(req.responseText);
-        console.log(req);
-        console.log(data.predio_by_pk);
         setPredio(data.predio_by_pk);
       };
     }
@@ -144,10 +139,6 @@ const Predio = () => {
   const handleClickDeleteTerreno = () => {
     let id_predio = predio.id_predial;
     let id_terreno = predio.predio_terreno[0].terreno.id_terreno;
-    console.log("--");
-    console.log(id_predio);
-    console.log("--");
-    console.log(id_terreno);
 
     let MySwal = withReactContent(Swal);
     MySwal.fire({

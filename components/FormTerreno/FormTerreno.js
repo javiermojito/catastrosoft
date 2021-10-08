@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { getPredioById, insertTerrenoPredio } from "../../lib/PredioAPI";
 import { getTipoTerreno, insertTerreno } from "../../lib/TerrenoAPI";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 
 export default class FormTerreno extends Component {
   constructor(props) {
@@ -20,8 +19,6 @@ export default class FormTerreno extends Component {
 
   async loadTipoTerreno() {
     let tiposTerreno = await getTipoTerreno();
-    console.log("asd");
-    console.log(tiposTerreno);
     this.setState({
       ...this.state,
       tipo_terreno: tiposTerreno.tipo_terreno,
@@ -30,7 +27,6 @@ export default class FormTerreno extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(e);
     let predio = this.props.predio;
     let data = {};
     data.area_terreno = e.target.area.value;
@@ -38,7 +34,7 @@ export default class FormTerreno extends Component {
     data.idTipo_terreno = e.target.terrenos.value;
     data.tieneConstrucciones_terreno = e.target.cbTieneConstrucciones.checked;
     data.valorComercial_terreno = e.target.valorComercial.value;
-    console.log("El predio es ", predio);
+
     insertTerreno(data).then((res) => {
       insertTerrenoPredio(res, predio).then((res) => {
         if (res) {

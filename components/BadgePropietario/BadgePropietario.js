@@ -18,8 +18,6 @@ import withReactContent from "sweetalert2-react-content";
 export default class BadgePropietario extends Component {
   constructor(props) {
     super(props);
-    console.log("Aqui van los props");
-    console.log(props);
     this.state = {};
     this.propietario = {
       ...this.props.propietario,
@@ -44,8 +42,6 @@ export default class BadgePropietario extends Component {
   }
 
   async checkDeletePropietario(id_propietario, id_predio) {
-    console.log("el id del propietario es ", id_propietario);
-    console.log("el id del predio es ", id_predio);
     let MySwal = withReactContent(Swal);
     MySwal.fire({
       title: `¿Seguro que desea eliminar este propietario?`,
@@ -108,7 +104,7 @@ export default class BadgePropietario extends Component {
           </div>
         </div>
         <ul className="ml-4 mb-2">
-          {/* Información principal de un propiterio */}
+          {/* Información principal de un propietario */}
           <li className="text-sm text-gray-600">
             <HomeIcon size={13} className="mr-1.5" />
             {this.propietario.direccion}

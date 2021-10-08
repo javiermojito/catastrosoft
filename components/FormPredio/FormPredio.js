@@ -2,12 +2,9 @@ import React, { Component } from "react";
 import {
   getDepartamentos,
   getMunicipioByDepartamentoId,
-  getPredioById,
   getPredios,
   insertPredio,
-  insertTerrenoPredio,
 } from "../../lib/PredioAPI";
-import { getTipoTerreno, insertTerreno } from "../../lib/TerrenoAPI";
 import Swal from "sweetalert2";
 
 export default class FormPredio extends Component {
@@ -33,7 +30,6 @@ export default class FormPredio extends Component {
       departamentos: departamentos.departamento,
     });
   }
-  cleanMunicipios() {}
 
   async loadMunicipiosByDepartamento(departamento) {
     let municipios = await getMunicipioByDepartamentoId(departamento);
@@ -45,7 +41,6 @@ export default class FormPredio extends Component {
   }
 
   handleChange(e) {
-    console.log(e);
     let selected = false;
     if (e.target.value !== "") {
       let deparSelected = Number(e.target.value);
@@ -56,7 +51,6 @@ export default class FormPredio extends Component {
         selected = isInDepartamentos;
         this.loadMunicipiosByDepartamento(deparSelected);
       } else {
-        console.log("limpió los municipios");
         this.setState({
           ...this.state,
           municipios: [],
@@ -87,9 +81,6 @@ export default class FormPredio extends Component {
 
     data.id_departamento = e.target.departamentos.value;
     data.id_municipio = e.target.municipios.value;
-
-    console.log("La data es:");
-    console.log(data);
 
     insertPredio(data).then((res) => {
       if (res) {

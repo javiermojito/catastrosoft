@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  getPredioById,
-  insertConstruccionPredio,
-  insertTerrenoPredio,
-} from "../../lib/PredioAPI";
-import { getTipoTerreno, insertTerreno } from "../../lib/TerrenoAPI";
+import { getPredioById, insertConstruccionPredio } from "../../lib/PredioAPI";
 import Swal from "sweetalert2";
 import {
   getTipoConstruccion,
@@ -34,7 +29,6 @@ export class FormConstruccion extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(e);
     let predio = this.props.predio;
     let data = {};
     data.area = e.target.area.value;
@@ -42,8 +36,6 @@ export class FormConstruccion extends Component {
     data.idTipoConstruccion = e.target.tiposConstrucciones.value;
     data.numPisos = e.target.numPisos.value;
 
-    console.log("El predio es ", predio);
-    console.table([data]);
     insertConstruccion(data).then((res) => {
       insertConstruccionPredio(res, predio).then((res) => {
         if (res) {

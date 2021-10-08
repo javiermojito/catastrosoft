@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { PackageIcon, PlusIcon, XIcon } from "@primer/octicons-react";
 import BadgePredio from "../components/BadgePredio/BadgePredio";
 import Footer from "../components/Footer/Footer";
-import Link from "next/link";
 import Modal from "react-modal";
 import FormPredio from "../components/FormPredio/FormPredio";
 
@@ -25,7 +24,6 @@ const Home = () => {
       })
       .then((res) => res.json())
       .then(({ predio }) => {
-        console.log(predio);
         setPredioList(predio);
       });
   }, []);

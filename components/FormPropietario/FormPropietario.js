@@ -1,16 +1,6 @@
 import React, { Component } from "react";
-import {
-  getPredioById,
-  insertConstruccionPredio,
-  insertPropietarioPredio,
-  insertTerrenoPredio,
-} from "../../lib/PredioAPI";
-import { getTipoTerreno, insertTerreno } from "../../lib/TerrenoAPI";
+import { getPredioById, insertPropietarioPredio } from "../../lib/PredioAPI";
 import Swal from "sweetalert2";
-import {
-  getTipoConstruccion,
-  insertConstruccion,
-} from "../../lib/ConstruccionAPI";
 import { getTipoDocumento, insertPropietario } from "../../lib/PropietariosAPI";
 
 export class FormPropietario extends Component {
@@ -26,7 +16,6 @@ export class FormPropietario extends Component {
 
   componentDidMount() {
     this.loadTipoDocumento();
-    /* setRadioOptions(); */
   }
 
   setRadioOptions() {}
@@ -67,8 +56,6 @@ export class FormPropietario extends Component {
       data.nombres = null;
       data.apellidos = null;
     }
-    console.log(e.target.correo);
-    console.table([data]);
 
     insertPropietario(data).then((res) => {
       insertPropietarioPredio(res, predio).then((res) => {
@@ -341,29 +328,6 @@ export class FormPropietario extends Component {
                       </div>
                     </React.Fragment>
                   )}
-                  {/* <div>
-                    <label
-                      className="block text-sm font-medium text-gray-700"
-                      htmlFor="tiposConstrucciones"
-                    >
-                      Tipo de Construcción*
-                    </label>
-                    <select
-                      name="tiposConstrucciones"
-                      id="optiposConstrucciones"
-                      className="rounded p-1 bg-white border mt-1 w-full"
-                    >
-                      {this.state.tipo_construccion
-                        ? this.state.tipo_construccion.map((tipo) => {
-                            return (
-                              <option value={tipo.id_tipo_construccion}>
-                                {tipo.desc_tipo_construccion}
-                              </option>
-                            );
-                          })
-                        : null}
-                    </select>
-                  </div> */}
                 </div>
                 <div className="px-4 py-3 text-right sm:px-6">
                   <button

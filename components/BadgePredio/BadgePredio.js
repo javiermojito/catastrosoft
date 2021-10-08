@@ -31,7 +31,6 @@ export default class BadgePredio extends Component {
   }
 
   handleClick(e) {
-    console.log(e);
     let value;
 
     if (e.target.nodeName === "path") {
@@ -114,12 +113,6 @@ export default class BadgePredio extends Component {
             </div>
           </Link>
           <div className="flex flex-row mx-auto pl-1">
-            {/* <button
-              title="Editar"
-              className="transition duration-500 bg-gray-200 rounded-md p-1 mt-3 mb-3 ml-2 mr-1 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-blue-400 hover:text-white hover:font-bold"
-            >
-              <PencilIcon size={12} className="ml-1" />
-            </button> */}
             <button
               id="butEliminarPredio"
               title="Eliminar"

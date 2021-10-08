@@ -17,7 +17,6 @@ export default class BadgeConstruccion extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    console.log(props);
     this.construccion = {
       ...this.props.construccion,
     };
@@ -30,7 +29,6 @@ export default class BadgeConstruccion extends Component {
   };
 
   handleClickDelete(e) {
-    console.log(e);
     let value;
     if (e.target.nodeName === "path") {
       value = e.target.parentElement.parentElement.value;
@@ -39,13 +37,11 @@ export default class BadgeConstruccion extends Component {
     } else {
       value = e.target.value;
     }
-    console.log(value);
+
     if (value) this.checkDeleteConstruccion(value, this.props.predio);
   }
 
   async checkDeleteConstruccion(id_construccion, id_predio) {
-    console.log("el id de la construccion es ", id_construccion);
-    console.log("el id del predio es ", id_predio);
     let MySwal = withReactContent(Swal);
     MySwal.fire({
       title: `¿Seguro que desea eliminar esta construcción?`,
@@ -102,7 +98,6 @@ export default class BadgeConstruccion extends Component {
           </div>
         </div>
         <ul className="ml-4 mb-2">
-          {/* Información principal de un propiterio */}
           <li className="text-sm text-gray-600">
             <HomeIcon size={13} className="mr-1.5" />
             {this.construccion.direccion}
