@@ -1,10 +1,6 @@
 import {
-  CommentDiscussionIcon,
   ContainerIcon,
   HomeIcon,
-  ImageIcon,
-  ListOrderedIcon,
-  LocationIcon,
   PencilIcon,
   StackIcon,
   TableIcon,
@@ -12,6 +8,10 @@ import {
   TrashIcon,
 } from "@primer/octicons-react";
 import React, { Component } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { deleteConstruccion } from "../../lib/ConstruccionAPI";
+import { getPredioById } from "../../lib/PredioAPI";
 
 export default class BadgeConstruccion extends Component {
   constructor(props) {
@@ -21,12 +21,50 @@ export default class BadgeConstruccion extends Component {
     this.construccion = {
       ...this.props.construccion,
     };
+    this.handleClick.bind(this);
   }
 
   capitalize = (s) => {
     if (typeof s !== "string") return "";
     return s.charAt(0).toUpperCase() + s.slice(1);
   };
+
+  handleClick(e) {
+    if (e.target.id === "butEliminarConstruccion")
+      this.checkDeleteConstruccion(e.target.value, this.props.predio);
+  }
+
+  async checkDeleteConstruccion(id_construccion, id_predio) {
+    console.log("el id de la construccion es ", id_construccion);
+    console.log("el id del predio es ", id_predio);
+    let MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: `¿Seguro que desea eliminar esta construcción?`,
+      text: "Esta acción no se puede revertir.",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Sí, elimínalo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteConstruccion(id_construccion, id_predio).then((res) => {
+          if (res) {
+            Swal.fire(
+              "¡Construcción Eliminada!",
+              "La construcción ha sido eliminado correctamente.",
+              "Exito"
+            ).then(() => {
+              getPredioById(id_predio).then((res) => {
+                this.props.reload(res);
+              });
+            });
+          } else {
+            alert("ocurrio un error");
+          }
+        });
+      }
+    });
+  }
 
   render() {
     return (
@@ -44,11 +82,15 @@ export default class BadgeConstruccion extends Component {
               <PencilIcon size={12} className="ml-1" />
             </button>
             <button
-              id="butEliminarPredio"
+              id="butEliminarConstruccion"
               title="Eliminar"
               className="transition duration-500 bg-gray-200 rounded-md p-1 mt-3 mb-3 ml-1 mr-1 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-red-400 hover:text-white hover:font-bold"
+              onClick={this.handleClick.bind(this)}
+              value={this.construccion.id_construccion}
             >
-              <TrashIcon className="ml-1" size={12} />
+              <a>
+                <TrashIcon className="ml-1" size={12} />
+              </a>
             </button>
           </div>
         </div>

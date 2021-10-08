@@ -58,11 +58,16 @@ const Predio = () => {
       req.send();
       req.onload = () => {
         const data = JSON.parse(req.responseText);
+        console.log(req);
         console.log(data.predio_by_pk);
         setPredio(data.predio_by_pk);
       };
     }
   }, [predioId]);
+
+  const reloadPredio = (predio) => {
+    setPredio(predio);
+  };
 
   const capitalize = (s) => {
     if (typeof s !== "string") return "";
@@ -214,6 +219,9 @@ const Predio = () => {
                   return (
                     <BadgeConstruccion
                       construccion={construccion}
+                      predio={predio}
+                      reload={reloadPredio}
+                      predio={predio.id_predial}
                       key={construccion.id_construccion}
                     />
                   );
@@ -248,7 +256,7 @@ const Predio = () => {
                     Area
                   </p>
                   <p class="mt-px text-sm text-gray-600 mb-3 ">
-                    Área de {predio.terreno.area} km²
+                    Área de {predio?.terreno?.area} km²
                   </p>
                 </li>
                 <li className="col-start-1 sm:col-start-2 ">
@@ -283,7 +291,7 @@ const Predio = () => {
                     )}
                   </p>
                 </li>
-                <li className="col-start-1 ">
+                <li className="col-start-1">
                   <p class="text-sm font-medium text-gray-800 font-semibold">
                     <PackageDependentsIcon size={13} className="mr-1.5" />
                     Construcciones
