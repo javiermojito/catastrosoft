@@ -131,10 +131,12 @@ export default class BadgePredio extends Component {
               </p>
               <p>
                 <ScreenFullIcon size={16} />{" "}
-                {this.predio.terreno ? (
+                {this.predio?.predio_terreno?.length >= 1 ? (
                   <React.Fragment>
-                    Terreno {this.predio.terreno.tipo_terreno.desc_tipo_terreno}{" "}
-                    de {this.predio.terreno.area} km²
+                    Terreno{" "}
+                    {this.predio?.predio_terreno?.map(({ terreno }) => {
+                      return `${terreno?.tipo_terreno?.desc_tipo_terreno} de ${terreno.area} km²`;
+                    })}
                   </React.Fragment>
                 ) : (
                   <React.Fragment>Sin terreno asignado</React.Fragment>

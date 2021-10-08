@@ -88,6 +88,10 @@ const Predio = () => {
     }
   };
 
+  const handleClickDeleteTerreno = () => {
+    alert("Hola mundo");
+  };
+
   return (
     <React.Fragment>
       <div className="h-auto lg:h-screen bg-gray-100">
@@ -244,66 +248,93 @@ const Predio = () => {
               <h2 className="text-md font-bold ml-4">
                 <ScreenFullIcon size={16} className="mr-2 mb-px" /> Terreno
               </h2>
-              <button className=" transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold">
-                <PlusIcon size={12} className="mr-1 ml-1" /> Añadir
-              </button>
+              {predio?.terreno ? (
+                <div className="flex flex-row mr-2">
+                  <button className="transition duration-500 bg-gray-200 rounded-md p-1 pl-2 mt-3 mb-3 ml-2 mr-2 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-blue-400 hover:text-white hover:font-bold">
+                    <PencilIcon size={12} className="ml-px mr-1" />
+                    Editar
+                  </button>
+                  <button
+                    className="transition duration-500 bg-gray-200 rounded-md p-1 pl-2 mt-3 mb-3 ml-2 mr-2 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-red-400 hover:text-white hover:font-bold"
+                    onClick={handleClickDeleteTerreno}
+                  >
+                    <TrashIcon size={12} className="ml-px mr-1" />
+                    Eliminar
+                  </button>
+                </div>
+              ) : (
+                <button className=" transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold">
+                  <PlusIcon size={12} className="mr-1 ml-1" /> Añadir
+                </button>
+              )}
             </div>
             {/* GRID */}
             <div className="h-auto grid grid-col-1 gap-y-4 pb-4 pt-4 bg-white">
-              <ul className="ml-4">
-                <li className="col-start-1 sm:col-start-1">
-                  <p class="text-sm font-medium text-gray-800 font-semibold">
-                    <TableIcon size={13} className="mr-1.5" />
-                    Area
-                  </p>
-                  <p class="mt-px text-sm text-gray-600 mb-3 ">
-                    Área de {predio?.terreno?.area} km²
-                  </p>
-                </li>
-                <li className="col-start-1 sm:col-start-2 ">
-                  <p class="text-sm font-medium text-gray-800 font-semibold">
-                    <TagIcon size={13} className="mr-1.5" />
-                    Valor Comercial
-                  </p>
-                  <p class="mt-px text-sm text-gray-600 mb-3 ">
-                    {parseMoney(predio?.terreno?.valor_comercial)}
-                  </p>
-                </li>
-                <li className="col-start-1 sm:col-start-1 ">
-                  <p class="text-sm font-medium text-gray-800 font-semibold">
-                    <IterationsIcon size={13} className="mr-1.5" />
-                    Cercanía a fuentes de agua
-                  </p>
-                  <p class="mt-px text-sm text-gray-600 mb-3 ">
-                    {predio?.terreno?.esta_cerca_fuentes_agua
-                      ? `Este terreno se encuentra cerca a fuentes de agua`
-                      : `Este terreno no se encuentra cerca a fuentes de agua`}
-                  </p>
-                </li>
-                <li className="col-start-1 sm:col-start-2 ">
-                  <p class="text-sm font-medium text-gray-800 font-semibold">
-                    <MilestoneIcon size={13} className="mr-1.5" />
-                    Tipo de terreno
-                  </p>
-                  <p class="mt-px text-sm text-gray-600 mb-3 ">
-                    Terreno de tipo{" "}
-                    {capitalize(
-                      predio?.terreno?.tipo_terreno?.desc_tipo_terreno?.toLowerCase()
-                    )}
-                  </p>
-                </li>
-                <li className="col-start-1">
-                  <p class="text-sm font-medium text-gray-800 font-semibold">
-                    <PackageDependentsIcon size={13} className="mr-1.5" />
-                    Construcciones
-                  </p>
-                  <p class="mt-1 text-sm text-gray-600 mb-3 sm:col-span-2">
-                    {predio?.terreno?.tiene_construcciones
-                      ? `Este terreno cuenta con construcciones`
-                      : `Este terreno no cuenta con construcciones`}
-                  </p>
-                </li>
-              </ul>
+              {predio.predio_terreno?.length >= 1
+                ? predio.predio_terreno.map(({ terreno }) => {
+                    return (
+                      <React.Fragment>
+                        <ul className="ml-4">
+                          <li className="col-start-1 sm:col-start-1">
+                            <p class="text-sm font-medium text-gray-800 font-semibold">
+                              <TableIcon size={13} className="mr-1.5" />
+                              Area
+                            </p>
+                            <p class="mt-px text-sm text-gray-600 mb-3 ">
+                              Área de {terreno.area} km²
+                            </p>
+                          </li>
+                          <li className="col-start-1 sm:col-start-2 ">
+                            <p class="text-sm font-medium text-gray-800 font-semibold">
+                              <TagIcon size={13} className="mr-1.5" />
+                              Valor Comercial
+                            </p>
+                            <p class="mt-px text-sm text-gray-600 mb-3 ">
+                              {parseMoney(terreno?.valor_comercial)}
+                            </p>
+                          </li>
+                          <li className="col-start-1 sm:col-start-1 ">
+                            <p class="text-sm font-medium text-gray-800 font-semibold">
+                              <IterationsIcon size={13} className="mr-1.5" />
+                              Cercanía a fuentes de agua
+                            </p>
+                            <p class="mt-px text-sm text-gray-600 mb-3 ">
+                              {terreno?.esta_cerca_fuentes_agua
+                                ? `Este terreno se encuentra cerca a fuentes de agua`
+                                : `Este terreno no se encuentra cerca a fuentes de agua`}
+                            </p>
+                          </li>
+                          <li className="col-start-1 sm:col-start-2 ">
+                            <p class="text-sm font-medium text-gray-800 font-semibold">
+                              <MilestoneIcon size={13} className="mr-1.5" />
+                              Tipo de terreno
+                            </p>
+                            <p class="mt-px text-sm text-gray-600 mb-3 ">
+                              Terreno de tipo{" "}
+                              {capitalize(
+                                terreno?.tipo_terreno?.desc_tipo_terreno?.toLowerCase()
+                              )}
+                            </p>
+                          </li>
+                          <li className="col-start-1">
+                            <p class="text-sm font-medium text-gray-800 font-semibold">
+                              <PackageDependentsIcon
+                                size={13}
+                                className="mr-1.5"
+                              />
+                              Construcciones
+                            </p>
+                            <p class="mt-1 text-sm text-gray-600 mb-3 sm:col-span-2">
+                              {terreno?.tiene_construcciones
+                                ? `Este terreno cuenta con construcciones`
+                                : `Este terreno no cuenta con construcciones`}
+                            </p>
+                          </li>
+                        </ul>
+                      </React.Fragment>
+                    );
+                  })
+                : "No hay terreno registrado en este predio."}
             </div>
           </div>
         </section>

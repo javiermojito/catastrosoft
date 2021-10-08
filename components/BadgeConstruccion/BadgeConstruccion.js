@@ -30,6 +30,7 @@ export default class BadgeConstruccion extends Component {
   };
 
   handleClickDelete(e) {
+    console.log(e);
     let value;
     if (e.target.nodeName === "path") {
       value = e.target.parentElement.parentElement.value;
@@ -38,6 +39,7 @@ export default class BadgeConstruccion extends Component {
     } else {
       value = e.target.value;
     }
+    console.log(value);
     if (value) this.checkDeleteConstruccion(value, this.props.predio);
   }
 
