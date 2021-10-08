@@ -151,7 +151,7 @@ const Predio = () => {
 
     let MySwal = withReactContent(Swal);
     MySwal.fire({
-      title: `¿Seguro que desea eliminar esta construcción?`,
+      title: `¿Seguro que desea eliminar este Terreno?`,
       text: "Esta acción no se puede revertir.",
       icon: "warning",
       showCancelButton: true,
@@ -162,8 +162,8 @@ const Predio = () => {
         deleteTerrenoPredio(id_terreno, id_predio).then((res) => {
           if (res) {
             Swal.fire(
-              "¡Construcción Eliminada!",
-              "La construcción ha sido eliminado correctamente.",
+              "¡Terreno Eliminado!",
+              "El terreno ha sido eliminado correctamente.",
               "Exito"
             );
             getPredioById(id_predio).then((res) => {
@@ -208,38 +208,38 @@ const Predio = () => {
           <div>
             <ul className="grid gap-y-3 grid-col-2 sm:grid-cols-1 w-2/3 md:flex gap-x-8 mt-4 ml-6 md:w-11/12">
               <li className="col-start-1 sm:col-start-1 lg:col-start-1 xl:col-start-1 md:w-1/7">
-                <p class="text-sm font-medium text-gray-800">
+                <p className="text-sm font-medium text-gray-800">
                   <PackageIcon size={13} className="mr-1.5" />
                   Nombre del Predio
                 </p>
-                <p class="mt-px text-sm text-gray-600 sm:mt-0 ">
+                <p className="mt-px text-sm text-gray-600 sm:mt-0 ">
                   {predio?.nombre}
                 </p>
               </li>
               <li className="col-start-1 sm:col-start-2 lg:col-start-2 xl:col-start-2 md:w-1/7">
-                <p class="text-sm font-medium text-gray-800">
+                <p className="text-sm font-medium text-gray-800">
                   <HashIcon size={13} className="mr-1.5" />
                   Número Predial
                 </p>
-                <p class="mt-px text-sm text-gray-600 sm:mt-0 ">
+                <p className="mt-px text-sm text-gray-600 sm:mt-0 ">
                   {predio?.num_predial}
                 </p>
               </li>
               <li className="col-start-1 sm:col-start-1 lg:col-start-1 xl:col-start-1 md:w-1/7">
-                <p class="text-sm font-medium text-gray-800">
+                <p className="text-sm font-medium text-gray-800">
                   <LocationIcon size={13} className="mr-1.5" />
                   Municipio
                 </p>
-                <p class="mt-px text-sm text-gray-600 sm:mt-0 ">
+                <p className="mt-px text-sm text-gray-600 sm:mt-0 ">
                   {predio?.municipio?.municipio}
                 </p>
               </li>
               <li className="col-start-1 sm:col-start-2 lg:col-start-2 xl:col-start-2 md:w-1/7">
-                <p class="text-sm font-medium text-gray-800">
+                <p className="text-sm font-medium text-gray-800">
                   <MilestoneIcon size={13} className="mr-1.5" />
                   Departamento
                 </p>
-                <p class="mt-px text-sm text-gray-600 sm:mt-0 ">
+                <p className="mt-px text-sm text-gray-600 sm:mt-0 ">
                   {capitalize(
                     predio?.departamento?.departamento?.toLowerCase()
                   )}
@@ -373,40 +373,40 @@ const Predio = () => {
                     <React.Fragment>
                       <ul className="ml-4">
                         <li className="col-start-1 sm:col-start-1">
-                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                          <p className="text-sm font-medium text-gray-800 font-semibold">
                             <TableIcon size={13} className="mr-1.5" />
                             Area
                           </p>
-                          <p class="mt-px text-sm text-gray-600 mb-3 ">
+                          <p className="mt-px text-sm text-gray-600 mb-3 ">
                             Área de {terreno.area} km²
                           </p>
                         </li>
                         <li className="col-start-1 sm:col-start-2 ">
-                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                          <p className="text-sm font-medium text-gray-800 font-semibold">
                             <TagIcon size={13} className="mr-1.5" />
                             Valor Comercial
                           </p>
-                          <p class="mt-px text-sm text-gray-600 mb-3 ">
+                          <p className="mt-px text-sm text-gray-600 mb-3 ">
                             {parseMoney(terreno?.valor_comercial)}
                           </p>
                         </li>
                         <li className="col-start-1 sm:col-start-1 ">
-                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                          <p className="text-sm font-medium text-gray-800 font-semibold">
                             <IterationsIcon size={13} className="mr-1.5" />
                             Cercanía a fuentes de agua
                           </p>
-                          <p class="mt-px text-sm text-gray-600 mb-3 ">
+                          <p className="mt-px text-sm text-gray-600 mb-3 ">
                             {terreno?.esta_cerca_fuentes_agua
                               ? `Este terreno se encuentra cerca a fuentes de agua`
                               : `Este terreno no se encuentra cerca a fuentes de agua`}
                           </p>
                         </li>
                         <li className="col-start-1 sm:col-start-2 ">
-                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                          <p className="text-sm font-medium text-gray-800 font-semibold">
                             <MilestoneIcon size={13} className="mr-1.5" />
                             Tipo de terreno
                           </p>
-                          <p class="mt-px text-sm text-gray-600 mb-3 ">
+                          <p className="mt-px text-sm text-gray-600 mb-3 ">
                             Terreno de tipo{" "}
                             {capitalize(
                               terreno?.tipo_terreno?.desc_tipo_terreno?.toLowerCase()
@@ -414,14 +414,14 @@ const Predio = () => {
                           </p>
                         </li>
                         <li className="col-start-1">
-                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                          <p className="text-sm font-medium text-gray-800 font-semibold">
                             <PackageDependentsIcon
                               size={13}
                               className="mr-1.5"
                             />
                             Construcciones
                           </p>
-                          <p class="mt-1 text-sm text-gray-600 mb-3 sm:col-span-2">
+                          <p className="mt-1 text-sm text-gray-600 mb-3 sm:col-span-2">
                             {terreno?.tiene_construcciones
                               ? `Este terreno cuenta con construcciones`
                               : `Este terreno no cuenta con construcciones`}
@@ -455,8 +455,22 @@ const Predio = () => {
             </button>
           </div>
           <div className="mx-auto flex">
-            {modalAddTerreno && <FormTerreno add={modalAddTerreno} />}
-            {modalAddConstruccion && <FormConstruccion />}
+            {modalAddTerreno && (
+              <FormTerreno
+                add={modalAddTerreno}
+                predio={predio.id_predial}
+                reload={reloadPredio}
+                close={closeModal}
+              />
+            )}
+            {modalAddConstruccion && (
+              <FormConstruccion
+                add={modalAddConstruccion}
+                predio={predio.id_predial}
+                reload={reloadPredio}
+                close={closeModal}
+              />
+            )}
             {modalAddPropietario && <FormPropietario />}
           </div>
         </Modal>
