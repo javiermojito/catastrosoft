@@ -1,18 +1,15 @@
-
 # CatastroSoft
 
-Proyecto realizado en Next.JS +  GraphQL + Postgress para la gestión de predios.
+Proyecto realizado en Next.JS + GraphQL + Postgress para la gestión de predios.
 
-
-## Installation
+## Instalacion
 
 Instalar las librerias necesarias con npm
 
 ```bash
   npm install
-  
 ```
-    
+
 ## Modo Desarrollo
 
 Para correr el proyecto en modo desarrollo
@@ -21,13 +18,11 @@ Para correr el proyecto en modo desarrollo
   npm run dev
 ```
 
-  
 ## Demo
 
 Demo online:
+[Vercel website](https://catastrosoft-bl430i4ys-javiermojito.vercel.app/)
 
-
-  
 ## Tech Stack
 
 **Client:** React, NextJS, TailwindCSS
@@ -36,9 +31,6 @@ Demo online:
 
 **DB:** Postgress
 
-  
-## Authors
+## Autor
 
 - [@javiermojito](https://www.github.com/javiermojito)
-
-  
