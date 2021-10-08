@@ -21,7 +21,7 @@ export default class BadgeConstruccion extends Component {
     this.construccion = {
       ...this.props.construccion,
     };
-    this.handleClick.bind(this);
+    this.handleClickDelete.bind(this);
   }
 
   capitalize = (s) => {
@@ -29,9 +29,16 @@ export default class BadgeConstruccion extends Component {
     return s.charAt(0).toUpperCase() + s.slice(1);
   };
 
-  handleClick(e) {
-    if (e.target.id === "butEliminarConstruccion")
-      this.checkDeleteConstruccion(e.target.value, this.props.predio);
+  handleClickDelete(e) {
+    let value;
+    if (e.target.nodeName === "path") {
+      value = e.target.parentElement.parentElement.value;
+    } else if (e.target.nodeName === "svg") {
+      value = e.target.parentElement.value;
+    } else {
+      value = e.target.value;
+    }
+    if (value) this.checkDeleteConstruccion(value, this.props.predio);
   }
 
   async checkDeleteConstruccion(id_construccion, id_predio) {
@@ -68,7 +75,7 @@ export default class BadgeConstruccion extends Component {
 
   render() {
     return (
-      <div className=" bg-white h-auto shadow rounded w-11/12 mx-auto">
+      <div className=" bg-white h-40 shadow rounded w-11/12 mx-auto">
         <div className="flex flex-row items-center m-2 ml-4 border-b ">
           <ContainerIcon size={16} className="mr-2" />
           <p className="font-normal text-lg w-10/12 truncate">
@@ -85,12 +92,10 @@ export default class BadgeConstruccion extends Component {
               id="butEliminarConstruccion"
               title="Eliminar"
               className="transition duration-500 bg-gray-200 rounded-md p-1 mt-3 mb-3 ml-1 mr-1 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-red-400 hover:text-white hover:font-bold"
-              onClick={this.handleClick.bind(this)}
+              onClick={this.handleClickDelete.bind(this)}
               value={this.construccion.id_construccion}
             >
-              <a>
-                <TrashIcon className="ml-1" size={12} />
-              </a>
+              <TrashIcon className="ml-1" size={12} />
             </button>
           </div>
         </div>

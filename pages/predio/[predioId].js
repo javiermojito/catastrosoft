@@ -169,7 +169,7 @@ const Predio = () => {
         </section>
 
         {/* Propietarios, Construcciones y terreno*/}
-        <section className="grid block w-full grid-cols-1 grid-rows-1 mx-auto border-t bg-gray-100 md:grid-cols-2 xl:grid-cols-3">
+        <section className="grid block w-full gap-y-9 grid-cols-1 grid-rows-1 mx-auto border-t bg-gray-100 md:grid-cols-2 xl:grid-cols-3">
           {/* Propietarios */}
           <div className="border rounded m-5 w-96 mx-auto h-96 bg-gray-200">
             {/* Title */}
@@ -183,12 +183,14 @@ const Predio = () => {
               </button>
             </div>
             {/* GRID */}
-            <div className="overflow-auto h-auto bg-gray-200 grid grid-col-1 gap-y-4 pb-4 pt-4 ">
+            <div className="overflow-y-auto h-96 bg-gray-200 grid grid-col-1 gap-y-4 pb-4 pt-4 ">
               {predio.predio_propietario?.length >= 1 ? (
                 predio.predio_propietario.map(({ propietario }) => {
                   return (
                     <BadgePropietario
                       propietario={propietario}
+                      reload={reloadPredio}
+                      predio={predio.id_predial}
                       key={propietario.id_propietario}
                     />
                   );
@@ -213,13 +215,12 @@ const Predio = () => {
               </button>
             </div>
             {/* GRID */}
-            <div className="overflow-auto h-auto bg-gray-200 grid grid-col-1 gap-y-4 pb-4 pt-4">
+            <div className="overflow-y-auto h-96 bg-gray-200 grid grid-col-1 gap-y-4 pb-4 pt-4 ">
               {predio.predio_construccion?.length >= 1 ? (
                 predio.predio_construccion.map(({ construccion }) => {
                   return (
                     <BadgeConstruccion
                       construccion={construccion}
-                      predio={predio}
                       reload={reloadPredio}
                       predio={predio.id_predial}
                       key={construccion.id_construccion}
