@@ -23,15 +23,28 @@ import {
   TableIcon,
   TagIcon,
   TrashIcon,
+  XIcon,
 } from "@primer/octicons-react";
 import BadgePropietario from "../../components/BadgePropietario/BadgePropietario";
 import BadgeConstruccion from "../../components/BadgeConstruccion/BadgeConstruccion";
+import { deleteTerrenoPredio, getPredioById } from "../../lib/PredioAPI";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+import Modal from "react-modal";
+import FormTerreno from "../../components/FormTerreno/FormTerreno";
+import FormPropietario from "../../components/FormPropietario/FormPropietario";
+import FormConstruccion from "../../components/FormConstruccion/FormConstruccion";
 
 const Predio = () => {
   const {
     query: { predioId },
   } = useRouter();
   const [predio, setPredio] = useState([]);
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalAddTerreno, setAddTerreno] = React.useState(false);
+  const [modalAddPropietario, setAddPropietario] = React.useState(false);
+  const [modalAddConstruccion, setAddConstruccion] = React.useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -65,8 +78,48 @@ const Predio = () => {
     }
   }, [predioId]);
 
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
+  const openModal = (e) => {
+    let value = getValueFromEvent(e);
+    if (value === "addTerreno") setAddTerreno(true);
+    if (value === "addConstruccion") setAddConstruccion(true);
+    if (value === "addPropietario") setAddPropietario(true);
+    setIsOpen(true);
+  };
+
+  const afterOpenModal = () => {};
+
+  const closeModal = () => {
+    setAddTerreno(false);
+    setAddConstruccion(false);
+    setAddPropietario(false);
+    setIsOpen(false);
+  };
+
   const reloadPredio = (predio) => {
     setPredio(predio);
+  };
+
+  const getValueFromEvent = (e) => {
+    let value;
+    if (e.target.nodeName === "path") {
+      value = e.target.parentElement.parentElement.value;
+    } else if (e.target.nodeName === "svg") {
+      value = e.target.parentElement.value;
+    } else {
+      value = e.target.value;
+    }
+    return value;
   };
 
   const capitalize = (s) => {
@@ -89,7 +142,39 @@ const Predio = () => {
   };
 
   const handleClickDeleteTerreno = () => {
-    alert("Hola mundo");
+    let id_predio = predio.id_predial;
+    let id_terreno = predio.predio_terreno[0].terreno.id_terreno;
+    console.log("--");
+    console.log(id_predio);
+    console.log("--");
+    console.log(id_terreno);
+
+    let MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: `¿Seguro que desea eliminar esta construcción?`,
+      text: "Esta acción no se puede revertir.",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Sí, elimínalo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteTerrenoPredio(id_terreno, id_predio).then((res) => {
+          if (res) {
+            Swal.fire(
+              "¡Construcción Eliminada!",
+              "La construcción ha sido eliminado correctamente.",
+              "Exito"
+            );
+            getPredioById(id_predio).then((res) => {
+              reloadPredio(res);
+            });
+          } else {
+            alert("ocurrio un error");
+          }
+        });
+      }
+    });
   };
 
   return (
@@ -182,7 +267,11 @@ const Predio = () => {
                 <PeopleIcon size={16} className="mr-2 mb-px" />
                 Propietarios
               </h2>
-              <button className=" transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold">
+              <button
+                className=" transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold"
+                value="addPropietario"
+                onClick={openModal}
+              >
                 <PlusIcon size={12} className="mr-1 ml-1" /> Añadir
               </button>
             </div>
@@ -214,7 +303,11 @@ const Predio = () => {
                 <OrganizationIcon size={16} className="mr-2 mb-px" />{" "}
                 Construcciones
               </h2>
-              <button className="transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold">
+              <button
+                className="transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold"
+                onClick={openModal}
+                value="addConstruccion"
+              >
                 <PlusIcon size={12} className="mr-1 ml-1" /> Añadir
               </button>
             </div>
@@ -248,7 +341,7 @@ const Predio = () => {
               <h2 className="text-md font-bold ml-4">
                 <ScreenFullIcon size={16} className="mr-2 mb-px" /> Terreno
               </h2>
-              {predio?.terreno ? (
+              {predio.predio_terreno?.length >= 1 ? (
                 <div className="flex flex-row mr-2">
                   <button className="transition duration-500 bg-gray-200 rounded-md p-1 pl-2 mt-3 mb-3 ml-2 mr-2 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-blue-400 hover:text-white hover:font-bold">
                     <PencilIcon size={12} className="ml-px mr-1" />
@@ -263,113 +356,110 @@ const Predio = () => {
                   </button>
                 </div>
               ) : (
-                <button className=" transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold">
+                <button
+                  className=" transition duration-500 bg-gray-200 rounded-md p-1 m-3 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold"
+                  value="addTerreno"
+                  onClick={openModal}
+                >
                   <PlusIcon size={12} className="mr-1 ml-1" /> Añadir
                 </button>
               )}
             </div>
             {/* GRID */}
             <div className="h-auto grid grid-col-1 gap-y-4 pb-4 pt-4 bg-white">
-              {predio.predio_terreno?.length >= 1
-                ? predio.predio_terreno.map(({ terreno }) => {
-                    return (
-                      <React.Fragment>
-                        <ul className="ml-4">
-                          <li className="col-start-1 sm:col-start-1">
-                            <p class="text-sm font-medium text-gray-800 font-semibold">
-                              <TableIcon size={13} className="mr-1.5" />
-                              Area
-                            </p>
-                            <p class="mt-px text-sm text-gray-600 mb-3 ">
-                              Área de {terreno.area} km²
-                            </p>
-                          </li>
-                          <li className="col-start-1 sm:col-start-2 ">
-                            <p class="text-sm font-medium text-gray-800 font-semibold">
-                              <TagIcon size={13} className="mr-1.5" />
-                              Valor Comercial
-                            </p>
-                            <p class="mt-px text-sm text-gray-600 mb-3 ">
-                              {parseMoney(terreno?.valor_comercial)}
-                            </p>
-                          </li>
-                          <li className="col-start-1 sm:col-start-1 ">
-                            <p class="text-sm font-medium text-gray-800 font-semibold">
-                              <IterationsIcon size={13} className="mr-1.5" />
-                              Cercanía a fuentes de agua
-                            </p>
-                            <p class="mt-px text-sm text-gray-600 mb-3 ">
-                              {terreno?.esta_cerca_fuentes_agua
-                                ? `Este terreno se encuentra cerca a fuentes de agua`
-                                : `Este terreno no se encuentra cerca a fuentes de agua`}
-                            </p>
-                          </li>
-                          <li className="col-start-1 sm:col-start-2 ">
-                            <p class="text-sm font-medium text-gray-800 font-semibold">
-                              <MilestoneIcon size={13} className="mr-1.5" />
-                              Tipo de terreno
-                            </p>
-                            <p class="mt-px text-sm text-gray-600 mb-3 ">
-                              Terreno de tipo{" "}
-                              {capitalize(
-                                terreno?.tipo_terreno?.desc_tipo_terreno?.toLowerCase()
-                              )}
-                            </p>
-                          </li>
-                          <li className="col-start-1">
-                            <p class="text-sm font-medium text-gray-800 font-semibold">
-                              <PackageDependentsIcon
-                                size={13}
-                                className="mr-1.5"
-                              />
-                              Construcciones
-                            </p>
-                            <p class="mt-1 text-sm text-gray-600 mb-3 sm:col-span-2">
-                              {terreno?.tiene_construcciones
-                                ? `Este terreno cuenta con construcciones`
-                                : `Este terreno no cuenta con construcciones`}
-                            </p>
-                          </li>
-                        </ul>
-                      </React.Fragment>
-                    );
-                  })
-                : "No hay terreno registrado en este predio."}
+              {predio.predio_terreno?.length >= 1 ? (
+                predio.predio_terreno.map(({ terreno }) => {
+                  return (
+                    <React.Fragment>
+                      <ul className="ml-4">
+                        <li className="col-start-1 sm:col-start-1">
+                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                            <TableIcon size={13} className="mr-1.5" />
+                            Area
+                          </p>
+                          <p class="mt-px text-sm text-gray-600 mb-3 ">
+                            Área de {terreno.area} km²
+                          </p>
+                        </li>
+                        <li className="col-start-1 sm:col-start-2 ">
+                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                            <TagIcon size={13} className="mr-1.5" />
+                            Valor Comercial
+                          </p>
+                          <p class="mt-px text-sm text-gray-600 mb-3 ">
+                            {parseMoney(terreno?.valor_comercial)}
+                          </p>
+                        </li>
+                        <li className="col-start-1 sm:col-start-1 ">
+                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                            <IterationsIcon size={13} className="mr-1.5" />
+                            Cercanía a fuentes de agua
+                          </p>
+                          <p class="mt-px text-sm text-gray-600 mb-3 ">
+                            {terreno?.esta_cerca_fuentes_agua
+                              ? `Este terreno se encuentra cerca a fuentes de agua`
+                              : `Este terreno no se encuentra cerca a fuentes de agua`}
+                          </p>
+                        </li>
+                        <li className="col-start-1 sm:col-start-2 ">
+                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                            <MilestoneIcon size={13} className="mr-1.5" />
+                            Tipo de terreno
+                          </p>
+                          <p class="mt-px text-sm text-gray-600 mb-3 ">
+                            Terreno de tipo{" "}
+                            {capitalize(
+                              terreno?.tipo_terreno?.desc_tipo_terreno?.toLowerCase()
+                            )}
+                          </p>
+                        </li>
+                        <li className="col-start-1">
+                          <p class="text-sm font-medium text-gray-800 font-semibold">
+                            <PackageDependentsIcon
+                              size={13}
+                              className="mr-1.5"
+                            />
+                            Construcciones
+                          </p>
+                          <p class="mt-1 text-sm text-gray-600 mb-3 sm:col-span-2">
+                            {terreno?.tiene_construcciones
+                              ? `Este terreno cuenta con construcciones`
+                              : `Este terreno no cuenta con construcciones`}
+                          </p>
+                        </li>
+                      </ul>
+                    </React.Fragment>
+                  );
+                })
+              ) : (
+                <span className="mx-auto">
+                  No hay terreno registrado en este predio.
+                </span>
+              )}
             </div>
           </div>
         </section>
-        {/* Terreno */}
-        {/* <section className="mt-6 ml-4 mb-6">
-        <div className="flex flex-row justify-between items-center border-b">
-          <h2 className="text-xl font-bold ml-4">
-            <ScreenFullIcon size={24} className="mr-2" />
-            Terreno
-          </h2>
-          <div className="flex flex-row mr-2">
-            <button className="transition duration-500 bg-gray-200 rounded-md p-1 pl-2 mt-3 mb-3 ml-2 mr-2 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-blue-400 hover:text-white hover:font-bold">
-              <PencilIcon size={12} className="ml-px mr-1" />
-              Editar
-            </button>
-            <button className="transition duration-500 bg-gray-200 rounded-md p-1 pl-2 mt-3 mb-3 ml-2 mr-2 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-red-400 hover:text-white hover:font-bold">
-              <TrashIcon size={12} className="ml-px mr-1" />
-              Eliminar
-            </button>
-          </div>
-        </div>
 
-        <div className="flex flex-row justify-between items-center border-b">
-          <h2 className="text-xl font-bold ml-4">
-            <ScreenFullIcon size={24} className="mr-2" />
-            Sin Terreno
-          </h2>
-          <div className="flex flex-row mr-2">
-            <button className="transition duration-500 bg-gray-200 rounded-md p-1 pl-2 mt-3 mb-3 ml-2 mr-2 flex content-center items-center justify-center pr-2 text-xs font-base hover:bg-green-400 hover:text-white hover:font-bold">
-              <PlusIcon size={12} className="ml-px mr-1" />
-              Añadir
+        {/* Modal Añadir Terreno */}
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div className="flex mx-auto justify-between">
+            <div> </div>
+            <button onClick={closeModal} className="mr-2">
+              <XIcon size={24} />
             </button>
           </div>
-        </div>
-      </section> */}
+          <div className="mx-auto flex">
+            {modalAddTerreno && <FormTerreno add={modalAddTerreno} />}
+            {modalAddConstruccion && <FormConstruccion />}
+            {modalAddPropietario && <FormPropietario />}
+          </div>
+        </Modal>
       </div>
       <Footer />
     </React.Fragment>
