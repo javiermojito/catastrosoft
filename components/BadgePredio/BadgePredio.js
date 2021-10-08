@@ -12,16 +12,17 @@ import {
   PersonIcon,
   OrganizationIcon,
   ScreenFullIcon,
-  PencilIcon,
   TrashIcon,
   PeopleIcon,
 } from "@primer/octicons-react";
+import { deletePredio, getPredios } from "../../lib/PredioAPI";
 
 export default class BadgePredio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
+      modalIsOpen: false,
+      modalAddPredio: false,
     };
     this.predio = {
       ...props.predio,
@@ -55,7 +56,7 @@ export default class BadgePredio extends Component {
 
   callDeletePredio(predio) {
     MySwal.fire({
-      title: `¿Seguro que desea eliminar este '${predio}'?`,
+      title: `¿Seguro que desea eliminar este Predio?`,
       text: "Esta acción no se puede revertir.",
       icon: "warning",
       showCancelButton: true,
@@ -63,15 +64,39 @@ export default class BadgePredio extends Component {
       confirmButtonText: "Sí, elimínalo",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("PEDIENTE");
-        Swal.fire(
-          "Predio Eliminado!",
-          "El predio ha sido eliminado correctamente.",
-          "Exito"
-        );
+        deletePredio(predio).then((res) => {
+          if (res) {
+            Swal.fire(
+              "Predio Eliminado!",
+              "El predio ha sido eliminado correctamente.",
+              "Exito"
+            );
+            getPredios().then((res) => {
+              this.props.reloadPredioList(res);
+            });
+          } else {
+            Swal.fire(
+              "Ups!",
+              "Ha ocurrido un error mientras se eliminaba el predio.",
+              "Error"
+            );
+          }
+        });
       }
     });
   }
+
+  getValueFromEvent = (e) => {
+    let value;
+    if (e.target.nodeName === "path") {
+      value = e.target.parentElement.parentElement.value;
+    } else if (e.target.nodeName === "svg") {
+      value = e.target.parentElement.value;
+    } else {
+      value = e.target.value;
+    }
+    return value;
+  };
 
   // <Link href={`/predio/${this.predio.id_predial}`}>
   render() {

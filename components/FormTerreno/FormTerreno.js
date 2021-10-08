@@ -85,7 +85,7 @@ export default class FormTerreno extends Component {
                           type="number"
                           name="area"
                           id="area"
-                          placeholder="5"
+                          placeholder="325"
                           className="border rounded pl-2
                             active:ring-indigo-500 active:border-indigo-500 flex-1 block w-full sm:text-sm border-gray-300"
                           required
@@ -106,7 +106,7 @@ export default class FormTerreno extends Component {
                         type="number"
                         name="valorComercial"
                         id="valorComercial"
-                        placeholder="5"
+                        placeholder="12500000"
                         className="border rounded pl-2
                             active:ring-indigo-500 active:border-indigo-500 flex-1 block w-full sm:text-sm border-gray-300"
                         required
@@ -168,7 +168,7 @@ export default class FormTerreno extends Component {
                     </select>
                   </div>
                 </div>
-                <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                <div className="px-4 py-3 text-right sm:px-6">
                   <button
                     type="submit"
                     className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
