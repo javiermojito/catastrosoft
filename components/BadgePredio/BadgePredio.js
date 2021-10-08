@@ -49,6 +49,10 @@ export default class BadgePredio extends Component {
     return s.charAt(0).toUpperCase() + s.slice(1);
   };
 
+  parseID = (id) => {
+    if (id) return "#" + id.toString().padStart(5, "0");
+  };
+
   callDeletePredio(predio) {
     MySwal.fire({
       title: `¿Seguro que desea eliminar este '${predio}'?`,
@@ -80,7 +84,7 @@ export default class BadgePredio extends Component {
                 {this.predio.nombre}
               </h2>
               <span className="text-xs text-gray-600 inline-block align-baseline pb-1">
-                #{this.predio.num_predial}
+                {this.parseID(this.predio?.num_predial)}
               </span>
             </div>
           </Link>

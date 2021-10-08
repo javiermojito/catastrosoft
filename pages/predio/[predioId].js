@@ -9,6 +9,7 @@ import {
   HashIcon,
   HomeIcon,
   IterationsIcon,
+  LawIcon,
   LocationIcon,
   MailIcon,
   MilestoneIcon,
@@ -141,6 +142,10 @@ const Predio = () => {
     }
   };
 
+  const parseID = (id) => {
+    if (id) return "#" + id.toString().padStart(5, "0");
+  };
+
   const handleClickDeleteTerreno = () => {
     let id_predio = predio.id_predial;
     let id_terreno = predio.predio_terreno[0].terreno.id_terreno;
@@ -194,7 +199,7 @@ const Predio = () => {
             <div className="flex flex-row my-auto items-end ">
               <h1 className="text-2xl font-bold pr-2 pl-2">{predio?.nombre}</h1>
               <span className="text-base text-gray-600 mb-px">
-                #{predio.num_predial}
+                {parseID(predio.num_predial)}
               </span>
             </div>
           </div>
@@ -222,7 +227,16 @@ const Predio = () => {
                   Número Predial
                 </p>
                 <p className="mt-px text-sm text-gray-600 sm:mt-0 ">
-                  {predio?.num_predial}
+                  {parseID(predio?.num_predial)}
+                </p>
+              </li>
+              <li className="col-start-1 sm:col-start-2 lg:col-start-2 xl:col-start-2 md:w-1/7">
+                <p className="text-sm font-medium text-gray-800">
+                  <LawIcon size={13} className="mr-1.5" />
+                  Avaluo
+                </p>
+                <p className="mt-px text-sm text-gray-600 sm:mt-0 ">
+                  {parseMoney(predio?.avaluo)}
                 </p>
               </li>
               <li className="col-start-1 sm:col-start-1 lg:col-start-1 xl:col-start-1 md:w-1/7">
@@ -246,14 +260,6 @@ const Predio = () => {
                 </p>
               </li>
             </ul>
-
-            {/* <ul>
-            <li>Area</li>
-            <li>Valor comercial</li>
-            <li>Esta cerca de fuentes de agua</li>
-            <li>Tipo de terreno</li>
-            <li>Tiene construcciones</li>
-          </ul> */}
           </div>
         </section>
 
@@ -471,7 +477,14 @@ const Predio = () => {
                 close={closeModal}
               />
             )}
-            {modalAddPropietario && <FormPropietario />}
+            {modalAddPropietario && (
+              <FormPropietario
+                add={modalAddPropietario}
+                predio={predio.id_predial}
+                reload={reloadPredio}
+                close={closeModal}
+              />
+            )}
           </div>
         </Modal>
       </div>
